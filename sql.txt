@@ -1,0 +1,85 @@
+一、 insert into语句
+
+insert into 表名称 values ('val1','val2','val3',...)
+insert into Person values ('Bill','22','male',...)
+
+or
+
+insert into 表名称(列1,列2,列3,...) values ('val1','val2','val3',...)
+insert into Persons (LastName, Address) values ('Wilson', 'Champs-Elysees')
+
+将数据库表拷贝到另一个表中
+
+insert into table2 select * from table1 
+
+二、update 语句
+
+update 表名称 set 字段名=新值 where 列表名=某值
+update Person set LastName='andy',age=33 where Address='Champs-Elysees'
+
+三、delete 语句
+
+delete from 表名称 where 列表名=某值
+
+四、select 语句
+select 列名称 from 表名称
+
+1. AND & OR
+把两个或多个条件语句结合起来
+select * from Person where sex='male' and (age=22 or name='andy')
+
+2. ORDER BY
+对指定结果集进行排序
+select * from Person where sex='male' order by age ASC, name DESC
+
+* 另一种用法
+select * from Product where cid='0' order by case when price='0' then 1 when tag='free' then 2 when tag='recommand' then 3 else 4 end, times DESC, cid ASC
+
+3. like
+指定模式查询
+select * from Person where city like '%changsha%' and male not like '%male%'
+select * from Person where city like '%c' // 以c结尾的
+
+4. in
+select * from Person where LastName in ('adam','carter')
+
+5. between
+between... and 会选取介于两者之间的范围
+select * from Person where LastName between 'adam' and 'carter'
+
+6. 表和列的别名
+
+表的别名：应用于多表查询
+select a.city, a.age, b.salary from Person as a, User as b where a.cid=b.id
+列的别名
+select thetitle as title, id as appid from app
+
+7. UNION ALL
+合并两个或多个select语句的结果集,允许重复的值，必须拥有相同数量的列
+SELECT column_name(s) FROM table_name1
+UNION ALL
+SELECT column_name(s) FROM table_name2
+
+8. alter
+
+添加列
+alter table table_name add column_name datatype
+
+删除列
+alter table table_name drop column column_name
+ 
+改变列表数据类型
+alter table table_name
+alter column column_name datatype
+
+9. COUNT, AVG, MAX, MIN
+select COUNT(*) as total from table
+select AVG(points) as avarage from table
+
+10. GROUP BY
+select customer, SUM(OrderPrice) as price from Orders group by customer
+
+11. CREATE INDEX
+在不扫描数据库表的情况下，索引能更快地查询到数据
+CREATE INDEX PersonIndex on Person (LastName DECS);
+在数据量非常大的情况下，经常要用到某字段作为条件来查询的话，就可以给该字段添加索引，提高查询速度
